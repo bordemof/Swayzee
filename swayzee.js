@@ -3,18 +3,20 @@ const
   phantom       = require('phantom'),
   cluster       = require('cluster'),
   express       = require('express'),
-  app = express();
+  app           = express();
 
-
+//Regex
 var SCRIPT_REGEX   = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
 var ASSET_REGEX    = /\.(jpg|jpeg|png|gif|css|js|woff|\/img|\/css|\/js)/g;
 var ESCAPED_REGEX  = /escaped_fragment_=/g;
 var ERR404_REGEX   = /name="prerender-status-code/g;
 
+// Url of the single page application
 var ORIGIN      = 'http://localhost:8080/';
+//PhantomJS arguments
 var pharguments = ["--load-images=false", "--ignore-ssl-errors=true", "--ssl-protocol=tlsv1"];
 
-
+//This queue stores all the valid requests
 var processingQueue = [];
 
 phantom.create(function (ph) {
@@ -34,7 +36,8 @@ phantom.create(function (ph) {
                         processingQueue.push({hash: hash, response: res, page: page, running: false})
                         processNext();
                     } else {
-                        var splited = req.url.split('/');
+                        //Redirect asset requests to origin, only works for 2 level path assets ex: /img/avatar.jpg
+                        var splited = req.url.split("/");
                         var redirect_url = ORIGIN+(splited[splited.length-2])+"/"+(splited[splited.length-1])
                         res.redirect(redirect_url);
                     }
@@ -47,6 +50,7 @@ phantom.create(function (ph) {
 
        // HANDLE PHANTOM OUTPUT
        page.set('onConsoleMessage', function (msg) {
+            // Uncomment for debuging your client output
             // console.log("Phantom Console: " + msg);
             if (msg.indexOf('PEF: ') > -1) {
 
@@ -56,16 +60,15 @@ phantom.create(function (ph) {
                 var task = processingQueue.shift();
 
                 if (hash == task.hash){
+                    //Remove script tags from the html
                     while (SCRIPT_REGEX.test(html)) { html = html.replace(SCRIPT_REGEX, ""); }
-                    console.log("Response ready for ",hash);
 
+                    console.log("Response ready for ", hash);
                     if (html.match(ERR404_REGEX)) {
                       task.response.status(404).send(html);
                     } else {
                       task.response.status(200).send(html);
                     }
-
-                    // delete pendingResponses[hash]
                 }
 
             }
@@ -100,7 +103,7 @@ var fetchAndRenderPage = function(page, hash) {
     }, function (result) {}, hash);
 }
 
-//
+// Process the next task in the queue
 var processNext = function(){
     if (processingQueue.length > 0) {
         var task = processingQueue[0];
