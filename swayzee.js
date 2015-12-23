@@ -3,7 +3,6 @@ const
   phantom       = require('phantom'),
   cluster       = require('cluster'),
   express       = require('express'),
-  async         = require('async'),
   app = express();
 
 
@@ -17,9 +16,6 @@ var pharguments = ["--load-images=false", "--ignore-ssl-errors=true", "--ssl-pro
 
 
 var processingQueue = [];
-
-
-
 
 phantom.create(function (ph) {
 
