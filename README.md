@@ -26,5 +26,5 @@ When the server initializes it creates a phantomjs instance and opens a page wit
 3. Make a request: ``http://localhost:1333/&_escaped_fragment_=/url/example```
 
 
-Inspired in (prerender.io)[https://github.com/prerender/prerender].
+Inspired in [prerender.io](https://github.com/prerender/prerender).
 
