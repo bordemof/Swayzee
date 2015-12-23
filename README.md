@@ -19,6 +19,8 @@ When the server initializes it creates a phantomjs instance and opens a page wit
 2. Implement a flag type value like the prerenderReady
 3. Standarize a 404 handling
 4. Dynamicly set multiple ORIGINS.
+### Fix
+1. Ensure all the phantom process get killed when exit or error.
 
 ## How to start
 1. Point the ORIGIN the url of your server.
