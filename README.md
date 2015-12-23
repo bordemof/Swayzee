@@ -5,8 +5,8 @@ Server to return static versions of your single page app
 When the server initializes it creates a phantomjs instance and opens a page with the url of the single page app. When the phantom is ready a express instance starts listening for page requests. When the phantom evaluation function detects that the title of the page has changed it returns the current html.
 
 ## Conventions
-*Swayzee asumes that when the title changes means that the page has finished loading.
-*Swayzee looks for a this tag in the html '<meta name="prerender-status-code" content="404">' to detect 404.
+* Swayzee asumes that when the title changes means that the page has finished loading.
+* Swayzee looks for a this tag in the html '<meta name="prerender-status-code" content="404">' to detect 404.
 
 ## TODO : Things to improve
 ### Refactor
