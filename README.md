@@ -1,5 +1,5 @@
 # Swayzee
-Server to return static versions of your single page app. 
+Server to return static versions of your single page app.
 
 ## How it works
 When the server initializes it creates a phantomjs instance and opens a page with the url of the single page app. When the phantom is ready a express instance starts listening for page requests. When the phantom evaluation function detects that the title of the page has changed it returns the current html.
@@ -19,6 +19,7 @@ When the server initializes it creates a phantomjs instance and opens a page wit
 2. Implement a flag type value like the prerenderReady
 3. Standarize a 404 handling
 4. Dynamicly set multiple ORIGINS.
+5. BlackList
 
 ## How to start
 1. Point the ORIGIN the url of your server.
