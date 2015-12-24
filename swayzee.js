@@ -15,7 +15,7 @@ var ESCAPED_REGEX  = /escaped_fragment_=/g;
 var ERR404_REGEX   = /name="prerender-status-code/g;
 
 // Url of the single page application
-var ORIGIN      = 'http://localhost:8080/';
+var ORIGIN      = process.env.ORIGIN || 'http://localhost:8080/';
 var port        = process.env.PORT || 1333;
 //PhantomJS arguments
 var pharguments = ["--load-images=false", "--ignore-ssl-errors=true", "--ssl-protocol=tlsv1"];
