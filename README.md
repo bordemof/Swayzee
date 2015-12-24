@@ -21,6 +21,9 @@ When the server initializes it creates a phantomjs instance and opens a page wit
 4. Dynamicly set multiple ORIGINS.
 5. BlackList
 
+### Fix
+1. Ensure all the phantom process get killed when exit or error.
+
 ## How to start
 1. Point the ORIGIN the url of your server.
 2. ```npm start``` or ```node swayzee.js --harmony```
@@ -28,4 +31,6 @@ When the server initializes it creates a phantomjs instance and opens a page wit
 
 
 Inspired in [prerender.io](https://github.com/prerender/prerender).
+
+<img width="393" alt="captura de pantalla 2015-12-23 a las 18 40 06" src="https://cloud.githubusercontent.com/assets/5477232/11981630/cf9fb35c-a9a4-11e5-9208-1b63c761a552.png">
 
