@@ -15,11 +15,13 @@ When the server initializes it creates a phantomjs instance and opens a page wit
 2. Improve the phantom response handling, onConsoleLog i think is not pretty way
 
 ### Improvements
-1. Create workers to launch independent phantom instances in each worker for balancing.
+1. Create workers to launch independent phantom instances in each worker for balancing. (Done)
 2. Implement a flag type value like the prerenderReady
 3. Standarize a 404 handling
 4. Dynamicly set multiple ORIGINS.
 5. BlackList
+6. Caching
+7. Error handling module
 
 ### Fix
 1. Ensure all the phantom process get killed when exit or error.
