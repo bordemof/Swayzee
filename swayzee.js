@@ -6,6 +6,7 @@ const
   http          = require('http'),
   numCPUs       = require('os').cpus().length,
   MobileDetect  = require('mobile-detect'),
+  mime          = require('mime-types'),
   app           = express();
 
 //Regex
@@ -15,7 +16,7 @@ var ESCAPED_REGEX  = /escaped_fragment_=/g;
 var ERR404_REGEX   = /name="prerender-status-code/g;
 
 // Url of the single page application
-var ORIGIN      = process.env.ORIGIN || 'http://localhost:8080/';
+var ORIGIN      = process.env.ORIGIN || 'http://localhost:3000/';
 var port        = process.env.PORT || 1333;
 //PhantomJS arguments
 var pharguments = ["--load-images=false", "--ignore-ssl-errors=true", "--ssl-protocol=tlsv1"];
@@ -24,11 +25,12 @@ var pharguments = ["--load-images=false", "--ignore-ssl-errors=true", "--ssl-pro
 //-----------------------------------------------------
 
 if (cluster.isMaster) {
-  for (var i = 0; i < numCPUs; i++) { cluster.fork(); }
+    for (var i = 0; i < numCPUs; i++) { cluster.fork(); }
 
-  cluster.on('exit', function(worker, code, signal) {
-    console.log('worker ' + worker.process.pid + ' died');
-  });
+    cluster.on('exit', function (worker) {
+        console.log('Worker %d died :( restarting...', worker.id);
+        cluster.fork();
+    });
 
 } else {
 
@@ -42,48 +44,36 @@ if (cluster.isMaster) {
 
                     app.get('*', function(req, res) {
                         var hasEscapedFragment = req.url.match(ESCAPED_REGEX);
-                        var isAsset            = req.url.match(ASSET_REGEX)
-
+                        var isAsset            = mime.lookup(req.url);
 
                         if (hasEscapedFragment && !isAsset) {
                             console.log("Receiving :",req.url);
-                            var hash = '#!'+req.url.split("_escaped_fragment_=")[1];
+                            var hash = extractHashURL(req.url);
                             processingQueue.push({hash: hash, request: req, response: res, page: page, running: false})
                             processNext();
                         } else {
                             //Redirect asset requests to origin, only works for 2 level path assets ex: /img/avatar.jpg
-                            var splited = req.url.split("/");
-                            var redirect_url = ORIGIN+(splited[splited.length-2])+"/"+(splited[splited.length-1])
+                            var redirect_url = calcRedirectUrl(req.url)
                             res.redirect(redirect_url);
                         }
 
                     });
 
                     app.listen( port, function(){ console.log("Swayzee is ready to receive requests."); });
-
            });
 
            // HANDLE PHANTOM OUTPUT
            page.set('onConsoleMessage', function (msg) {
                 // Uncomment for debuging your client output
-                // console.log("Phantom Console: " + msg);
+                console.log("Phantom Console: " + msg);
                 if (msg.indexOf('PEF: ') > -1) {
-
                     var hash = msg.replace('PEF: ','').split(' -@- ')[0];
                     var html = msg.replace('PEF: ','').split(' -@- ')[1];
-
                     var task = processingQueue.shift();
 
-                    if (hash == task.hash){
-                        //Remove script tags from the html
-                        while (SCRIPT_REGEX.test(html)) { html = html.replace(SCRIPT_REGEX, ""); }
-
-                        console.log("Response ready for ", hash);
-                        if (html.match(ERR404_REGEX)) {
-                          task.response.status(404).send(html);
-                        } else {
-                          task.response.status(200).send(html);
-                        }
+                    if (hash == task.hash) {
+                        html = removeScriptTags(html);
+                        generateResponse(task, html);
                     }
                 }
            });
@@ -119,7 +109,7 @@ var fetchAndRenderPage = function(page, hash, size) {
                     console.log("PEF: "+hash+" -@- "+document.documentElement.innerHTML);
                     document.title =  document.title+' processed '+Date.now()
                     return;
-                }, 1200);
+                }, 1500);
             }
         }
         isRenderReady();
@@ -138,6 +128,7 @@ var processNext = function(){
     }
 }
 
+// Detects the size of the screen and applies a custom width to the phantom page
 var calcScreenSize = function(request) {
     var md = new MobileDetect(request.headers['user-agent']);
     var size = { width: 1440, height: 718 };
@@ -151,6 +142,33 @@ var calcScreenSize = function(request) {
     return size;
 }
 
-// ON EXIT
+// Removes all script tags from the html
+var removeScriptTags = function(html) {
+    while (SCRIPT_REGEX.test(html)) { html = html.replace(SCRIPT_REGEX, ""); }
+    return html;
+}
+
+// Extracts the hash and adds back the #! convention
+var extractHashURL = function(url) {
+    return  '#!'+url.split("_escaped_fragment_=")[1];
+}
+
+// Calcs the origin url of the requested resource
+var calcRedirectUrl = function(url) {
+    var splited = url.split("/");
+    return ORIGIN+(splited[splited.length-2])+"/"+(splited[splited.length-1]);
+}
+
+// Handles the task response, detects also 404
+var generateResponse = function(task, html){
+    console.log("Response ready for ", task.hash);
+    if (html.match(ERR404_REGEX)) {
+      task.response.status(404).send(html);
+    } else {
+      task.response.status(200).send(html);
+    }
+}
+
+
 
 
