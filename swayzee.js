@@ -11,7 +11,6 @@ const
 
 //Regex
 var SCRIPT_REGEX   = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
-var ASSET_REGEX    = /\.(jpg|jpeg|png|gif|css|js|woff|\/img|\/css|\/js)/g;
 var ESCAPED_REGEX  = /escaped_fragment_=/g;
 var ERR404_REGEX   = /name="prerender-status-code/g;
 
