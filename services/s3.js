@@ -1,4 +1,5 @@
-"use strict"
+'use strict';
+
 const
     knox   = require('knox'),
     Hope   = require('hope'),
