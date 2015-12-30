@@ -6,25 +6,18 @@ When the server initializes it creates a phantomjs instance and opens a page wit
 
 ## Conventions
 * Swayzee works with the #! escaped_fragment google convention.
+* Swayzee works with the watching the window.prerenderReady boolean value, it must be setted to true when the spa finish the rendering process.
 * Swayzee asumes that when the title changes means that the page has finished loading.
 * Swayzee looks for a this tag in the html ```<meta name="prerender-status-code" content="404">``` to detect 404 errors.
 
 ## TODO : Things to improve
 ### Refactor
-1. Clean the code in a more modular way. Now works but its shit.
-2. Improve the phantom response handling, onConsoleLog i think is not pretty way
+1. Improve the phantom response handling, onConsoleLog i think is not pretty way
 
 ### Improvements
-1. Create workers to launch independent phantom instances in each worker for balancing. (Done)
-2. Implement a flag type value like the prerenderReady
-3. Standarize a 404 handling
-4. Dynamicly set multiple ORIGINS.
-5. BlackList
-6. Caching
-7. Error handling module
-
-### Fix
-1. Ensure all the phantom process get killed when exit or error.
+1. Dynamicly set multiple ORIGINS.
+2. BlackList
+3. Caching (Now only s3)
 
 ## How to start
 1. Point the ORIGIN the url of your server.
