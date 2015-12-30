@@ -4,9 +4,9 @@ const
     knox   = require('knox'),
     Hope   = require('hope'),
     client = knox.createClient({
-        key   : 'YOUR-S3-KEY',
-        secret: 'YOUR-S3-SECRET-KEY',
-        bucket: 'YOUR-S3-BUCKET'
+        key   : process.env.AMAZON_KEY || 'AMAZON-KEY',
+        secret: process.env.AMAZON_KEY || 'AMAZON-SECRET',
+        bucket: process.env.AMAZON_BUCKET || 'AMAZON-BUCKET'
     });
 
 
