@@ -16,9 +16,11 @@ var device = function(undefined) {
     var calcScreenSize = function(request) {
         var md = new MobileDetect(request.headers['user-agent']);
         var size = { width: 1440, height: 718 };
-        if (md.phone()){
+        if (md.phone() || md.is("MobileBot")) {
+            console.log("Applying Mobile Size");
             size = { width: 479, height: 718 };
         } else if (md.tablet()) {
+            console.log("Applying Tablet Size");
             size = { width: 961, height: 718 };
         }
         return size;
