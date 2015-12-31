@@ -6,8 +6,7 @@ var device = function(undefined) {
     var getPrefix = function(request) {
         var md = new MobileDetect(request.headers['user-agent']);
         var size = 'desktop/';
-        if (md.phone()){
-            console.log("Mobile size detected.");
+        if (md.phone()) {
             size = 'mobile/'
         }
         return size;
@@ -18,10 +17,8 @@ var device = function(undefined) {
         var md = new MobileDetect(request.headers['user-agent']);
         var size = { width: 1440, height: 718 };
         if (md.phone()){
-            console.log("Mobile size detected.");
             size = { width: 479, height: 718 };
         } else if (md.tablet()) {
-            console.log("Tablet size detected.");
             size = { width: 961, height: 718 };
         }
         return size;
