@@ -6,7 +6,7 @@ var device = function(undefined) {
     var getPrefix = function(request) {
         var md = new MobileDetect(request.headers['user-agent']);
         var size = 'desktop/';
-        if (md.phone()) {
+        if (md.phone() || md.is("MobileBot")) {
             size = 'mobile/'
         }
         return size;
