@@ -10,9 +10,8 @@ When the server initializes it creates a phantomjs instance and opens a page wit
 
 ## Conventions
 * Swayzee works with the #! escaped_fragment google convention.
-* Swayzee works with the watching the window.prerenderReady boolean value, it must be setted to true when the spa finish the rendering process.
-* Swayzee asumes that when the title changes means that the page has finished loading.
-* Swayzee looks for a this tag in the html ```<meta name="prerender-status-code" content="404">``` to detect 404 errors.
+* Swayzee knows when the static is ready to ve served watching the window.prerenderReady boolean value, it must be setted to true when the spa has finished the rendering process.
+* Swayzee looks for a this convention tag in the html ```<meta name="prerender-status-code" content="404">``` to detect 404 errors.
 
 ## TODO : Things to improve
 ### Refactor
