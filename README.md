@@ -17,7 +17,7 @@ When the server initializes it creates a phantomjs instance and opens a page wit
 ### Improvements
 1. Dynamicly set multiple ORIGINS.
 2. BlackList
-3. Caching (Now only s3)
+3. Caching Handler (Now only avaible s3)
 
 ## How to start
 1. Point the ORIGIN the url of your server.
