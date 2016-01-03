@@ -12,7 +12,7 @@ var textParser = function(undefined) {
 
     // Extracts the hash and adds back the #! convention
     var extractHashURL = function(url) {
-        return  '#!'+url.split("_escaped_fragment_=")[1];
+        return  '#!'+url.split("_escaped_fragment_=")[1].split("%2F").join("/");
     };
 
     return {
