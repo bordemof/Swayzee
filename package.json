@@ -1,5 +1,5 @@
 {
-  "name": "Swayzee",
+  "name": "swayzee",
   "version": "1.0.0",
   "description": "Creates phantom instances to serve crawlers static content",
   "main": "server.js",
