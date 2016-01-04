@@ -8,8 +8,7 @@ Server to return static versions of your single page app.
 ## How it works
 When the server initializes it creates a phantomjs instance and opens a page with the url of the single page app. When the phantom is ready a express instance starts listening for page requests. When the phantom evaluation function detects that the flag(Globar variable) window.prerenderReady is set to true.
 
-![dibujo sin titulo](https://cloud.githubusercontent.com/assets/5477232/12099637/05f3bffa-b32a-11e5-8fad-7629fab1ba0f.png)
-
+![captura de pantalla 2016-01-04 a las 21 30 48](https://cloud.githubusercontent.com/assets/5477232/12099714/82734fdc-b32a-11e5-97c5-cfb4fb98f1ba.png)
 
 ## Conventions
 * Swayzee works with the #! escaped_fragment google convention.
@@ -24,6 +23,7 @@ When the server initializes it creates a phantomjs instance and opens a page wit
 1. Dynamicly set multiple ORIGINS.
 2. BlackList
 3. Caching Handler (Now only avaible s3)
+4. Multiclient
 
 ## How to start
 1. Point the ORIGIN the url of your server.
