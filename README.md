@@ -6,7 +6,7 @@ Server to return static versions of your single page app.
 [![NPM](https://nodei.co/npm/swayzee.png)](https://nodei.co/npm/swayzee/)
 
 ## How it works
-When the server initializes it creates a phantomjs instance and opens a page with the url of the single page app. When the phantom is ready a express instance starts listening for page requests. When the phantom evaluation function detects that the flag(Globar variable) window.prerenderReady is set to true.
+When the server initializes it creates a phantomjs instance and opens a page with the url of the single page app. When the phantom is ready a express instance starts listening for page requests. When the phantom evaluation function detects that the flag(Global variable) window.prerenderReady is set to true.
 
 ![captura de pantalla 2016-01-04 a las 21 30 48](https://cloud.githubusercontent.com/assets/5477232/12099714/82734fdc-b32a-11e5-97c5-cfb4fb98f1ba.png)
 
