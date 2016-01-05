@@ -6,6 +6,10 @@
   "scripts": {
     "start": "node swayzee.js --harmony"
   },
+  "repository" :
+  { "type" : "git",
+    "url" : "https://github.com/bordemof/Swayzee"
+  },
   "author": "@bordemof",
   "license": "ISC",
   "dependencies": {
