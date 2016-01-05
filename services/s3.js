@@ -27,9 +27,9 @@ var s3wrapper = function(undefined) {
 
               res.on('end', function(){
                 if (res.statusCode === 200) {
-                    promise.done(null,body)
+                    promise.done(null,body);
                 } else {
-                    promise.done(true,null)
+                    promise.done(true,null);
                 }
               });
         }).end();
